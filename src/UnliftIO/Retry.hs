@@ -5,7 +5,8 @@
 {-# LANGUAGE RecordWildCards #-}
 
 module UnliftIO.Retry
-    ( recovering
+    ( Backoff (..)
+    , recovering
     , BackoffAtMost(..)
     , backoffAtMost
     , BackoffLimitDelay(..)
@@ -94,8 +95,6 @@ recovering backoff handlers act = loop backoff 0
                     Just nextBackoff -> loop nextBackoff (tries + 1)
                     Nothing -> throwIO e
             retry False = throwIO e
-
-
 
 applyBackoffDelay ::
        (Backoff m backoff, MonadUnliftIO m)
